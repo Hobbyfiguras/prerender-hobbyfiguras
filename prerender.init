@@ -15,11 +15,10 @@ NAME="prerender"
 PIDDIR="/var/run/prerender"
 PIDFILE="$PIDDIR/prerender.pid"
 APP_DIR="/usr/bin"
-APP_BIN="prerender"
-APP_ARGS=""
+APP_BIN="node"
+APP_ARGS="/server/live/prerender/server.js"
 USER="prerender"
 GROUP="prerender"
-
 start() {
 	log_daemon_msg "Starting $NAME..."
 	mkdir -p $PIDDIR

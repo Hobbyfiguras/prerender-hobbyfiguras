@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-var prerender = require('./lib');
+var prerender = require('prerender');
 
 /* 
 	Define configuration options if needed 
@@ -25,7 +25,9 @@ var server = prerender({
     workers: process.env.PHANTOM_CLUSTER_NUM_WORKERS,
     iterations: process.env.PHANTOM_WORKER_ITERATIONS || 10,
     phantomBasePort: process.env.PHANTOM_CLUSTER_BASE_PORT || 12300,
-    messageTimeout: process.env.PHANTOM_CLUSTER_MESSAGE_TIMEOUT
+    messageTimeout: process.env.PHANTOM_CLUSTER_MESSAGE_TIMEOUT,
+	chromeLocation: '/usr/bin/chromium-browser',
+	chromeFlags: [ '--no-sandbox', '--headless', '--disable-gpu', '--remote-debugging-port=9222', '--hide-scrollbars' ]
 });
 
 

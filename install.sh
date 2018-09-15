@@ -4,9 +4,10 @@
 VERSION="1.1.1"
 SOURCE=$(dirname ${BASH_SOURCE[0]})
 INITSCRIPT="$SOURCE/prerender.init"
-SERVERSCRIPT=""
+SERVERSCRIPT="server.js"
 DEFAULT_NODE_PREFIX="/usr"
 NODE_PREFIX=$DEFAULT_NODE_PREFIX
+PROGRAM_FOLDER="/server/live/prerender"
 bold=`tput bold`
 normal=`tput sgr0`
 
@@ -16,6 +17,7 @@ UNINSTALL=false
 VERBOSE=false
 for i in "$@"
 do
+	echo $i
 	case $i in
 		-h|--help)
 			SHOW_HELP=true
@@ -32,12 +34,9 @@ do
 		-p=*|--node-prefix=*)
 	    	NODE_PREFIX="${i#*=}"
 	    ;;
-
-	    -s=*|--server-script=*)
-	    	SERVERSCRIPT="${i#*=}"
-	    ;;
 	esac
 done
+
 
 banner() {	
 	echo "" 1>&3 2>&4;
@@ -135,18 +134,18 @@ fi
 #install
 banner 1>&3 2>&4
 rootcheck 1>&3 2>&4
-echo " ${bold}Installing prerender-daemon${normal}" 1>&3 2>&4
-
-npm install --global prerender 1>&3 2>&4
-echo "  ${bold}✓${normal} npm prerender installed" 1>&3 2>&4
 
 if [ -e "$SERVERSCRIPT" ]; then
-	DEFAULTSCRIPT="$NODE_PREFIX/lib/node_modules/prerender/server.js"
-	mv $DEFAULTSCRIPT "$DEFAULTSCRIPT.bak"
+	DEFAULTSCRIPT="$PROGRAM_FOLDER/server.js"
 	cp $SERVERSCRIPT $DEFAULTSCRIPT
+	cp $SOURCE/package.json $PROGRAM_FOLDER/package.json
 	chmod +x $DEFAULTSCRIPT;
 	echo "  ${bold}✓${normal} Server script copied to ${DEFAULTSCRIPT}" 1>&3 2>&4
 fi
+
+echo " ${bold}Installing prerender-daemon${normal}" 1>&3 2>&4
+npm install prerender --prefix $PROGRAM_FOLDER 1>&3 2>&4
+echo "  ${bold}✓${normal} npm prerender installed" 1>&3 2>&4
 
 useradd -r -s /bin/false prerender
 echo "  ${bold}✓${normal} prerender user and user group added" 1>&3 2>&4

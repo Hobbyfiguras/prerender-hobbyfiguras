@@ -1,0 +1,20 @@
+{
+  "name": "hobbyfiguras-prerender",
+  "version": "1.0.0",
+  "description": "prerender-daemon ================",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lmammino/prerender-daemon.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lmammino/prerender-daemon/issues"
+  },
+  "homepage": "https://github.com/lmammino/prerender-daemon#readme"
+}
